@@ -1,10 +1,11 @@
 package kr.co.dotsuvivor.dotsuvivor.game;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 import java.util.ArrayList;
 
+import kr.co.dotsuvivor.dotsuvivor.game.object.Fireball;
+import kr.co.dotsuvivor.dotsuvivor.game.object.Monster;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.util.CollisionHelper;
 import kr.co.dotsuvivor.framework.interfaces.IGameObject;
