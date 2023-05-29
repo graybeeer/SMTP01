@@ -1,9 +1,10 @@
 package kr.co.dotsuvivor.dotsuvivor.game.UI;
 
 import kr.co.dotsuvivor.R;
-import kr.co.dotsuvivor.dotsuvivor.game.MainScene;
+import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.dotsuvivor.game.object.Player;
 import kr.co.dotsuvivor.framework.objects.Sprite;
+import kr.co.dotsuvivor.framework.scene.BaseScene;
 
 
 public class HPbar extends Sprite {
@@ -22,11 +23,11 @@ public class HPbar extends Sprite {
         this.y_offset= 1.6f;
         //HP바 테두리 추가
         myHpbar_out = new HPbar_out(R.mipmap.ui, 0, 0, this.width, (this.height/3)*4, 10, 76, 16, 84, parentObj, 0, y_offset);
-        MainScene.add(MainScene.Layer.ui, myHpbar_out);
+        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar_out);
         myHpbar_out_left = new HPbar_out(R.mipmap.ui, 0, 0, 0.05f, this.height, 9, 77, 10, 83, parentObj, -this.width/2 - 0.025f, y_offset);
-        MainScene.add(MainScene.Layer.ui, myHpbar_out_left);
+        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar_out_left);
         myHpbar_out_right = new HPbar_out(R.mipmap.ui, 0, 0, 0.05f, this.height, 9, 77, 10, 83, parentObj, this.width/2 + 0.025f, y_offset);
-        MainScene.add(MainScene.Layer.ui, myHpbar_out_right);
+        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar_out_right);
     }
 
     public void HPbarSet(float x, float y) {

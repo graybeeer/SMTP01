@@ -1,7 +1,8 @@
 package kr.co.dotsuvivor.dotsuvivor.game.UI;
 
-import kr.co.dotsuvivor.dotsuvivor.game.MainScene;
+import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.dotsuvivor.game.object.Player;
+import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.util.Calculate;
 
 import android.view.MotionEvent;
@@ -34,7 +35,7 @@ public class Joystick extends Sprite implements ITouchable {
         this.isUI = true;
         this.paint.setAlpha(0);
         my_Joystick_out = new Joystick_out(this);
-        MainScene.add(MainScene.Layer.ui, my_Joystick_out);
+        BaseScene.getTopScene().add(MainScene.Layer.ui, my_Joystick_out);
     }
 
     public float touch_saved_x, touch_saved_y; //화면 기준

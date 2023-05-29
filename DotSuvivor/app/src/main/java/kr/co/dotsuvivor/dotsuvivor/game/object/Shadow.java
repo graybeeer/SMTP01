@@ -8,6 +8,7 @@ public class Shadow extends Sprite {
     public Shadow(int bitmapResId, float cx, float cy, float width, float height, int left, int top, int right, int bottom, Sprite obj) {
         super(bitmapResId, cx, cy, width, height, left, top, right, bottom);
         parentObj = obj;
+        ShadowSet(); //재활용시 제대로된 위치로 옮겨야함
     }
     @Override
     public void update() {

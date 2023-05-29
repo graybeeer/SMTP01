@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import kr.co.dotsuvivor.R;
-import kr.co.dotsuvivor.dotsuvivor.game.MainScene;
+import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.framework.interfaces.IBoxCollidable;
 import kr.co.dotsuvivor.framework.interfaces.IRecyclable;
 import kr.co.dotsuvivor.framework.objects.AnimSprite;
@@ -21,13 +21,14 @@ public class Monster extends AnimSprite implements IBoxCollidable, IRecyclable {
     protected RectF collisionRect = new RectF(); //몬스터 피격 범위
     private float damage; //몬스터의 데미지
 
-    public Monster(int bitmapResId, float cx, float cy, float width, float height, float fps, int frameCount) {
-        super(bitmapResId, cx, cy, width, height, fps, frameCount);
+    public Monster(float cx, float cy) {
+        super(R.mipmap.enemy_1, cx, cy, 1.8f, 1.8f, 5, 1);
         this.isUI = false;
         speed = 2.5f;
         myShadow = new Shadow(R.mipmap.props, 0, 0, 1, 0.6f, 37, 20, 47, 26, this);
-        MainScene.add(MainScene.Layer.shadow, myShadow);
-        this.nowHP = 200;
+        BaseScene.getTopScene().add(MainScene.Layer.shadow, myShadow);
+        this.maxHP = 10;
+        this.nowHP = this.maxHP;
         this.damage = 10;
     }
 

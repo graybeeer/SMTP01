@@ -3,7 +3,7 @@ package kr.co.dotsuvivor.dotsuvivor.game.object;
 import android.graphics.RectF;
 
 import kr.co.dotsuvivor.R;
-import kr.co.dotsuvivor.dotsuvivor.game.MainScene;
+import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.dotsuvivor.game.UI.GameOverUI;
 import kr.co.dotsuvivor.dotsuvivor.game.UI.HPbar;
 import kr.co.dotsuvivor.framework.interfaces.IBoxCollidable;
@@ -36,14 +36,14 @@ public class Player extends AnimSprite implements IBoxCollidable {
         super(R.mipmap.farmer_0, 5, 5, (float) 1.8, 2, 5, 1);
         //그림자 추가
         myShadow = new Shadow(R.mipmap.props, 0, 0, 1, 0.6f, 37, 20, 47, 26, this);
-        MainScene.add(MainScene.Layer.shadow, myShadow);
+        BaseScene.getTopScene().add(MainScene.Layer.shadow, myShadow);
         this.isUI = false;
         this.maxHP = 30;
         this.nowHP = this.maxHP;
 
         //HP바 추가
         myHpbar = new HPbar(R.mipmap.ui, 0, 0, 1.6f, 0.3f, 20, 77, 26, 83,this);
-        MainScene.add(MainScene.Layer.ui, myHpbar);
+        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar);
 
     }
 
@@ -170,7 +170,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
 
     private void attack() { //주변 적 공격 함수
         //메인 씬에서 몬스터 레이어에 있는 목록 가져오기
-        ArrayList<IGameObject> MonsterArrayList = MainScene.getObjectsAt(MainScene.Layer.monster);
+        ArrayList<IGameObject> MonsterArrayList = BaseScene.getTopScene().getObjectsAt(MainScene.Layer.monster);
         int i = 0;
         for (int ei = MonsterArrayList.size() - 1; ei >= 0; ei--) {
             Monster monsterObj = (Monster) MonsterArrayList.get(ei);
@@ -216,7 +216,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
             return;
         float attackDegree = (float) Calculate.getAngle(this.x, this.y, nearest_monster.get_x(), nearest_monster.get_y());
         attackDegree = (float) Calculate.RadianToDegree(attackDegree);
-        MainScene.add(MainScene.Layer.weapon, new Fireball(this.x, this.y, attackDegree));
+        BaseScene.getTopScene().add(MainScene.Layer.weapon, new Fireball(this.x, this.y, attackDegree));
     }
 
     //플레이어가 살아있는지 체크
@@ -262,7 +262,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
     private void dead() {
         this.setAlpha(255);
         this.nowPlayerState = PlayerState.dead;
-        MainScene.add(MainScene.Layer.ui, new GameOverUI());
+        BaseScene.getTopScene().add(MainScene.Layer.ui, new GameOverUI());
     }
     //체력
     public float getMaxHP(){

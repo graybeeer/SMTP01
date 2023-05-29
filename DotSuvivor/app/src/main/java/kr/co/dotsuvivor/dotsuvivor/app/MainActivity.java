@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import kr.co.dotsuvivor.dotsuvivor.game.MainScene;
+import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.view.GameView;
 public class MainActivity extends AppCompatActivity {

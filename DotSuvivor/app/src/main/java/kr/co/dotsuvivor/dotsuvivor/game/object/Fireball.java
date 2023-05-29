@@ -3,7 +3,7 @@ package kr.co.dotsuvivor.dotsuvivor.game.object;
 import android.graphics.RectF;
 
 import kr.co.dotsuvivor.R;
-import kr.co.dotsuvivor.dotsuvivor.game.MainScene;
+import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.framework.interfaces.IBoxCollidable;
 import kr.co.dotsuvivor.framework.interfaces.IRecyclable;
 import kr.co.dotsuvivor.framework.objects.Sprite;
