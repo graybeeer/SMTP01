@@ -3,7 +3,7 @@ package kr.co.dotsuvivor.dotsuvivor.game.controller;
 import android.graphics.Canvas;
 
 import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
-import kr.co.dotsuvivor.dotsuvivor.game.object.Monster;
+import kr.co.dotsuvivor.dotsuvivor.game.object.monster.Monster;
 import kr.co.dotsuvivor.dotsuvivor.game.object.Player;
 import kr.co.dotsuvivor.framework.interfaces.IGameObject;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
@@ -24,7 +24,9 @@ public class MonsterSpawner implements IGameObject {
 
     @Override
     public void update() {
-        spawnTimer();
+        if (MainScene.player.checkPlayerAlive()) {
+            spawnTimer();
+        }
     }
 
     @Override

@@ -4,9 +4,11 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 
+import kr.co.dotsuvivor.dotsuvivor.game.object.Coin;
+import kr.co.dotsuvivor.dotsuvivor.game.object.Player;
 import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
-import kr.co.dotsuvivor.dotsuvivor.game.object.Fireball;
-import kr.co.dotsuvivor.dotsuvivor.game.object.Monster;
+import kr.co.dotsuvivor.dotsuvivor.game.object.weapon.FireballBullet;
+import kr.co.dotsuvivor.dotsuvivor.game.object.monster.Monster;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.util.CollisionHelper;
 import kr.co.dotsuvivor.framework.interfaces.IGameObject;
@@ -19,20 +21,19 @@ public class CollisionChecker implements IGameObject {
         MainScene scene = (MainScene) BaseScene.getTopScene();
         ArrayList<IGameObject> monster = scene.getObjectsAt(MainScene.Layer.monster);
         ArrayList<IGameObject> fireball = scene.getObjectsAt(MainScene.Layer.weapon);
-        for (int ei = monster.size() - 1; ei >= 0; ei--) {
+        ArrayList<IGameObject> coin = scene.getObjectsAt(MainScene.Layer.coin);
+
+        for (int ei = monster.size() - 1; ei >= 0; ei--) { //몬스터 순회
             Monster monsterobj = (Monster) monster.get(ei);
             if(monsterobj.checkMonsterAlive()) {
                 //몬스터와 파이어볼 충돌 체크
                 for (int bi = fireball.size() - 1; bi >= 0; bi--) {
-                    Fireball fireballobj = (Fireball) fireball.get(bi);
+                    FireballBullet fireballobj = (FireballBullet) fireball.get(bi);
                     if (CollisionHelper.collides(monsterobj, fireballobj)) {
                         //Log.d(TAG, "ATTACK!!");
                         //충돌된 파이어볼 삭제처리. 나중엔 관통하거나 폭발하는 효과 추가.
                         BaseScene.getTopScene().remove(MainScene.Layer.weapon, fireballobj);
-                        boolean dead = monsterobj.attacked(fireballobj.getDamage());
-                        if (dead) {
-                            //scene.addScore(enemy.getScore());
-                        }
+                        monsterobj.attacked(fireballobj.getDamage());
                     }
                 }
                 //몬스터와 플레이어 충돌 체크
@@ -40,6 +41,15 @@ public class CollisionChecker implements IGameObject {
                     MainScene.player.attacked(monsterobj.getDamage());
                     //Log.d(TAG, "DAMAGED!!");
                 }
+            }
+        }
+        for (int ei = coin.size() - 1; ei >= 0; ei--) { //코인 순회
+            Coin coinobj = (Coin) coin.get(ei);
+            //코인과 플레이어 충돌 체크
+            if (CollisionHelper.collides(coinobj, MainScene.player)) {
+                MainScene.player.gainEXP(coinobj.getEXP());
+                coinobj.deleteCoin();
+                //Log.d(TAG, "DAMAGED!!");
             }
         }
     }

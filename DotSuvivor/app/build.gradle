@@ -6,6 +6,10 @@ android {
     namespace 'kr.co.dotsuvivor'
     compileSdk 33
 
+    viewBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "kr.co.dotsuvivor"
         minSdk 22

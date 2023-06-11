@@ -3,6 +3,11 @@ package kr.co.dotsuvivor.dotsuvivor.game.object;
 import android.graphics.RectF;
 
 import kr.co.dotsuvivor.R;
+import kr.co.dotsuvivor.dotsuvivor.game.UI.EXPbar;
+import kr.co.dotsuvivor.dotsuvivor.game.object.monster.Monster;
+import kr.co.dotsuvivor.dotsuvivor.game.object.weapon.Fireball;
+import kr.co.dotsuvivor.dotsuvivor.game.object.weapon.FireballBullet;
+import kr.co.dotsuvivor.dotsuvivor.game.object.weapon.Weapon;
 import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.dotsuvivor.game.UI.GameOverUI;
 import kr.co.dotsuvivor.dotsuvivor.game.UI.HPbar;
@@ -22,14 +27,20 @@ public class Player extends AnimSprite implements IBoxCollidable {
     private static final String TAG = Player.class.getSimpleName();
     private static int playersize_x = 18;
     private static int playersize_y = 20;
-    private RectF collisionRect = new RectF();
     private final Shadow myShadow; //내 그림자
     private final HPbar myHpbar;
+    private final EXPbar myEXPbar;
     //private final HPbar_out myHpbar_out; //내 HPbar
     private float maxHP; //내 최대 체력
     private float nowHP; //내 지금 체력
-    private float exp; //내 경험치
+
+    private float maxEXP; //최대 경험치
+    private float nowEXP; //내 경험치
     private boolean hurt = false; //공격받은 상태
+    protected final float HURT_INTERVAL = 1f; //플레이어 피격 무적 시간
+    private ArrayList<Weapon> playerWeaponList; //플레이어가 소지하고 있는 무기들 리스트
+
+
 
     //도트 서바이벌 리소스 이미지 시트는 18x18, 여백 1 크기다.
     public Player() {
@@ -40,17 +51,27 @@ public class Player extends AnimSprite implements IBoxCollidable {
         this.isUI = false;
         this.maxHP = 30;
         this.nowHP = this.maxHP;
+        this.maxEXP = 1000;
+        this.nowEXP = 0;
 
         //HP바 추가
-        myHpbar = new HPbar(R.mipmap.ui, 0, 0, 1.6f, 0.3f, 20, 77, 26, 83,this);
+        myHpbar = new HPbar(R.mipmap.ui, 0, 0, 1.6f, 0.3f, 20, 77, 26, 83, this);
         BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar);
+
+        //EXP바 추가
+        myEXPbar = new EXPbar(this);
+        BaseScene.getTopScene().add(MainScene.Layer.ui, myEXPbar);
+
+        //무기배열 추가
+        playerWeaponList = new ArrayList<Weapon>();
+        playerWeaponList.add(new Fireball()); //파이어볼 추가
 
     }
 
     @Override
     public RectF getCollisionRect() {
         //나중에 콜라이드 전용 크기로 바꾸기
-        return new RectF(x - width / 2, y - height / 2, x + width / 2, y + height / 2);
+        return new RectF(x - width / 4, y - height / 3, x + width / 4, y + height / 3);
     }
 
     //플레이어의 상태
@@ -147,6 +168,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
         }
         this.myShadow.ShadowSet();
         this.myHpbar.HPbarSet();
+        this.myEXPbar.EXPbarSet();
     }
 
     public void move(float dx, float dy) {
@@ -216,9 +238,12 @@ public class Player extends AnimSprite implements IBoxCollidable {
             return;
         float attackDegree = (float) Calculate.getAngle(this.x, this.y, nearest_monster.get_x(), nearest_monster.get_y());
         attackDegree = (float) Calculate.RadianToDegree(attackDegree);
-        BaseScene.getTopScene().add(MainScene.Layer.weapon, new Fireball(this.x, this.y, attackDegree));
+        BaseScene.getTopScene().add(MainScene.Layer.weapon, new FireballBullet(this.x, this.y, attackDegree));
     }
 
+    public void get_EXP(float coin) {
+        this.nowEXP += coin;
+    }
     //플레이어가 살아있는지 체크
     public boolean checkPlayerAlive() {
         if (nowPlayerState == PlayerState.dead) {
@@ -228,7 +253,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
     }
 
     protected float hurtAccumulatedTime = 0;//플레이어 피격무적 계산 변수
-    protected final float HURT_INTERVAL = 0.3f; //플레이어 피격 무적 시간
+
 
     protected void checkHurtTime() {
         if (this.hurt == false) { //다친 상태가 아니라면 계산 종료
@@ -264,11 +289,27 @@ public class Player extends AnimSprite implements IBoxCollidable {
         this.nowPlayerState = PlayerState.dead;
         BaseScene.getTopScene().add(MainScene.Layer.ui, new GameOverUI());
     }
+    public void gainEXP(float coinEXP){
+        nowEXP+=coinEXP;
+        //만약 최대 exp를 넘기면 레벨업
+        if(nowEXP>maxEXP)
+        {
+            //levelup();
+        }
+    }
+
+
     //체력
     public float getMaxHP(){
         return this.maxHP;
     }
     public float getNowHP(){
         return this.nowHP;
+    }
+    public float getMaxEXP(){
+        return this.maxEXP;
+    }
+    public float getNowEXP(){
+        return this.nowEXP;
     }
 }

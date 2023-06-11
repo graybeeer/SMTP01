@@ -1,12 +1,14 @@
 package kr.co.dotsuvivor.dotsuvivor.game.scene;
 
+import android.util.Log;
+
 import kr.co.dotsuvivor.R;
 import kr.co.dotsuvivor.dotsuvivor.game.UI.Joystick;
 import kr.co.dotsuvivor.dotsuvivor.game.controller.CollisionChecker;
 import kr.co.dotsuvivor.dotsuvivor.game.controller.MonsterSpawner;
 import kr.co.dotsuvivor.dotsuvivor.game.object.InfinityBackground;
-import kr.co.dotsuvivor.dotsuvivor.game.object.Monster;
 import kr.co.dotsuvivor.dotsuvivor.game.object.Player;
+import kr.co.dotsuvivor.framework.objects.Button;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.view.Metrics;
 
@@ -19,7 +21,7 @@ public class MainScene extends BaseScene {
     private final InfinityBackground infinityBackground3;
     private final InfinityBackground infinityBackground4;
     public enum Layer {
-        bg, shadow, monster, player, weapon, effect, ui, touch, controller,COUNT
+        bg, shadow, coin, weapon, monster, player, effect, ui, touch, controller, COUNT
     }
 
     public MainScene() {
@@ -40,6 +42,18 @@ public class MainScene extends BaseScene {
         //플레이어 추가
         player = new Player();
         add(Layer.player, player);
+
+        //정지 버튼 추가
+        add(Layer.touch, new Button(R.mipmap.ui, 8.4f, 1.7f, 1.2f, 1.2f, 0, 85, 18, 103, new Button.Callback() {
+            @Override
+            public boolean onTouch(Button.Action action) {
+                if (action == Button.Action.pressed) {
+                    new PausedScene().pushScene();
+                    //Log.d(TAG, "pause touch");
+                }
+                return true;
+            }
+        }));
 
         //조이스틱 추가
         joystick = new Joystick(new Joystick.Callback() { //콜백함수 사용안함.
@@ -65,6 +79,8 @@ public class MainScene extends BaseScene {
 
         add(Layer.controller, new CollisionChecker()); //콜라이더 체크 추가
         add(Layer.controller, new MonsterSpawner(player));
+
+
     }
 /*
     @Override

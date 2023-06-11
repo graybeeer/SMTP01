@@ -14,6 +14,7 @@ import kr.co.dotsuvivor.framework.interfaces.IBoxCollidable;
 import kr.co.dotsuvivor.framework.interfaces.IGameObject;
 import kr.co.dotsuvivor.framework.interfaces.IRecyclable;
 import kr.co.dotsuvivor.framework.interfaces.ITouchable;
+import kr.co.dotsuvivor.framework.objects.Camera;
 
 public class BaseScene {
     private static ArrayList<BaseScene> stack = new ArrayList<>();
@@ -106,28 +107,31 @@ public class BaseScene {
     }
 
     public void draw(Canvas canvas) {
-        for (ArrayList<IGameObject> objects: layers) {
+        for (ArrayList<IGameObject> objects : layers) {
             for (IGameObject gobj : objects) {
                 gobj.draw(canvas);
             }
         }
-        /*
-        if (BuildConfig.DEBUG) {
+
+        //if (BuildConfig.DEBUG) {
+        if (true) {
             if (bboxPaint == null) {
                 bboxPaint = new Paint();
                 bboxPaint.setStyle(Paint.Style.STROKE);
                 bboxPaint.setColor(Color.RED);
             }
-            for (ArrayList<IGameObject> objects: layers) {
+            for (ArrayList<IGameObject> objects : layers) {
                 for (IGameObject gobj : objects) {
                     if (gobj instanceof IBoxCollidable) {
                         RectF rect = ((IBoxCollidable) gobj).getCollisionRect();
+                        rect.offset(-Camera.camera_x + 4.5f, -Camera.camera_y+ 8f);
+
                         canvas.drawRect(rect, bboxPaint);
                     }
                 }
             }
         }
-        */
+
     }
 
     protected static ArrayList<ArrayList<IGameObject>> layers = new ArrayList<>();
