@@ -6,6 +6,7 @@ import android.graphics.RectF;
 
 import kr.co.dotsuvivor.R;
 import kr.co.dotsuvivor.dotsuvivor.game.object.Coin;
+import kr.co.dotsuvivor.dotsuvivor.game.object.Player;
 import kr.co.dotsuvivor.dotsuvivor.game.object.Shadow;
 import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.framework.interfaces.IBoxCollidable;
@@ -21,9 +22,10 @@ public class Monster extends AnimSprite implements IBoxCollidable, IRecyclable {
     protected float maxHP;
     protected float nowHP; //몬스터의 체력
     protected RectF collisionRect = new RectF(); //몬스터 피격 범위
-    private float damage; //몬스터의 데미지
+    protected float damage; //몬스터의 데미지
+    protected Player game_player;
 
-    public Monster(float cx, float cy) {
+    public Monster(Player player, float cx, float cy) {
         super(R.mipmap.enemy_1, cx, cy, 1.8f, 1.8f, 5, 1);
         this.isUI = false;
         speed = 2.5f;
@@ -32,6 +34,7 @@ public class Monster extends AnimSprite implements IBoxCollidable, IRecyclable {
         this.maxHP = 10;
         this.nowHP = this.maxHP;
         this.damage = 10;
+        this.game_player = player;
     }
 
     protected static int monstersize_x = 18; //몬스터 이미지 픽셀 사이즈 x크기
@@ -88,7 +91,7 @@ public class Monster extends AnimSprite implements IBoxCollidable, IRecyclable {
     public void update() {
         switch (nowMonsterState) {
             case move:
-                if (MainScene.player.checkPlayerAlive()) {
+                if (game_player.checkPlayerAlive()) {
                     doMove();
                 }
                 break;
@@ -127,7 +130,7 @@ public class Monster extends AnimSprite implements IBoxCollidable, IRecyclable {
 
     protected void doMove() {
         //몬스터가 플레이어를 향해서 움직임
-        float pl_ms_angle = (float) Calculate.getAngle(this.x, this.y, MainScene.player.x, MainScene.player.y);
+        float pl_ms_angle = (float) Calculate.getAngle(this.x, this.y, game_player.get_x(), game_player.get_y());
         float move_distance_x = (float) (Math.cos(pl_ms_angle) * speed * BaseScene.frameTime);
         float move_distance_y = (float) (Math.sin(pl_ms_angle) * speed * BaseScene.frameTime);
         if (move_distance_x > 0) {
@@ -137,10 +140,10 @@ public class Monster extends AnimSprite implements IBoxCollidable, IRecyclable {
         }
 
         //플레이어-몬스터 사이의 거리가 이동할 거리보다 가까우면
-        if (Calculate.getDistance(this.x, this.y, MainScene.player.x, MainScene.player.y) <
+        if (Calculate.getDistance(this.x, this.y, game_player.get_x(), game_player.get_y()) <
                 Calculate.getDistance(0, 0, move_distance_x, move_distance_y)) {
-            this.x = MainScene.player.x;
-            this.y = MainScene.player.y;
+            this.x = game_player.x;
+            this.y = game_player.y;
         } else {
             this.x += move_distance_x;
             this.y += move_distance_y;

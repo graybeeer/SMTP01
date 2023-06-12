@@ -24,7 +24,7 @@ public class MonsterSpawner implements IGameObject {
 
     @Override
     public void update() {
-        if (MainScene.player.checkPlayerAlive()) {
+        if (game_player.checkPlayerAlive()) {
             spawnTimer();
         }
     }
@@ -45,7 +45,7 @@ public class MonsterSpawner implements IGameObject {
     }
 
     private void spawn(float spawn_x, float spawn_y) {
-        BaseScene.getTopScene().add(MainScene.Layer.monster, new Monster(spawn_x, spawn_y));
+        BaseScene.getTopScene().add(MainScene.Layer.monster, new Monster(game_player, spawn_x, spawn_y));
     }
 
     private float randomPoint[][] = {

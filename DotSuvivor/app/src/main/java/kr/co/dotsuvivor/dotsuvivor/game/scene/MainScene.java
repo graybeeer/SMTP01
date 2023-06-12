@@ -14,7 +14,7 @@ import kr.co.dotsuvivor.framework.view.Metrics;
 
 public class MainScene extends BaseScene {
     private static final String TAG = MainScene.class.getSimpleName();
-    public static Player player;
+    private final Player player;
     private final Joystick joystick;
     private final InfinityBackground infinityBackground1;
     private final InfinityBackground infinityBackground2;
@@ -27,21 +27,20 @@ public class MainScene extends BaseScene {
     public MainScene() {
         Metrics.setGameSize(9.0f, 16.0f);
         initLayers(Layer.COUNT);
-        //무한 배경 추가
-        infinityBackground1 = new InfinityBackground(R.mipmap.background, -9, 9, 18, 18, 0, 0, 180, 180);
-        infinityBackground2 = new InfinityBackground(R.mipmap.background, 9, 9, 18, 18, 0, 0, 180, 180);
-        infinityBackground3 = new InfinityBackground(R.mipmap.background, -9, -9, 18, 18, 0, 0, 180, 180);
-        infinityBackground4 = new InfinityBackground(R.mipmap.background, 9, -9, 18, 18, 0, 0, 180, 180);
-        add(Layer.bg, infinityBackground1);
-        add(Layer.bg, infinityBackground2);
-        add(Layer.bg, infinityBackground3);
-        add(Layer.bg, infinityBackground4);
-
-        //몬스터 추가
 
         //플레이어 추가
         player = new Player();
         add(Layer.player, player);
+
+        //무한 배경 추가
+        infinityBackground1 = new InfinityBackground(player, R.mipmap.background, -9, 9, 18, 18, 0, 0, 180, 180);
+        infinityBackground2 = new InfinityBackground(player, R.mipmap.background, 9, 9, 18, 18, 0, 0, 180, 180);
+        infinityBackground3 = new InfinityBackground(player, R.mipmap.background, -9, -9, 18, 18, 0, 0, 180, 180);
+        infinityBackground4 = new InfinityBackground(player, R.mipmap.background, 9, -9, 18, 18, 0, 0, 180, 180);
+        add(Layer.bg, infinityBackground1);
+        add(Layer.bg, infinityBackground2);
+        add(Layer.bg, infinityBackground3);
+        add(Layer.bg, infinityBackground4);
 
         //정지 버튼 추가
         add(Layer.touch, new Button(R.mipmap.ui, 8.4f, 1.7f, 1.2f, 1.2f, 0, 85, 18, 103, new Button.Callback() {
@@ -77,7 +76,7 @@ public class MainScene extends BaseScene {
 
 
 
-        add(Layer.controller, new CollisionChecker()); //콜라이더 체크 추가
+        add(Layer.controller, new CollisionChecker(player)); //콜라이더 체크 추가
         add(Layer.controller, new MonsterSpawner(player));
 
 

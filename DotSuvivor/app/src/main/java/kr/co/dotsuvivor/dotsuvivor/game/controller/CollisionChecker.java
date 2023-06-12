@@ -14,7 +14,12 @@ import kr.co.dotsuvivor.framework.util.CollisionHelper;
 import kr.co.dotsuvivor.framework.interfaces.IGameObject;
 
 public class CollisionChecker implements IGameObject {
-    private static final String TAG = CollisionChecker.class.getSimpleName();
+
+    private Player game_player;
+
+    public CollisionChecker(Player player) {
+        this.game_player = player;
+    }
 
     @Override
     public void update() {
@@ -37,8 +42,8 @@ public class CollisionChecker implements IGameObject {
                     }
                 }
                 //몬스터와 플레이어 충돌 체크
-                if (CollisionHelper.collides(monsterobj, MainScene.player)) {
-                    MainScene.player.attacked(monsterobj.getDamage());
+                if (CollisionHelper.collides(monsterobj, game_player)) {
+                    game_player.attacked(monsterobj.getDamage());
                     //Log.d(TAG, "DAMAGED!!");
                 }
             }
@@ -46,8 +51,8 @@ public class CollisionChecker implements IGameObject {
         for (int ei = coin.size() - 1; ei >= 0; ei--) { //코인 순회
             Coin coinobj = (Coin) coin.get(ei);
             //코인과 플레이어 충돌 체크
-            if (CollisionHelper.collides(coinobj, MainScene.player)) {
-                MainScene.player.gainEXP(coinobj.getEXP());
+            if (CollisionHelper.collides(coinobj, game_player)) {
+                game_player.gainEXP(coinobj.getEXP());
                 coinobj.deleteCoin();
                 //Log.d(TAG, "DAMAGED!!");
             }
