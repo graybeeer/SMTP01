@@ -27,7 +27,7 @@ public class EXPbar extends Sprite {
     private float max_height;
 
 
-    public EXPbar(Player obj) {
+    public EXPbar(MainScene mainscene,Player obj) {
         super(R.mipmap.ui, 4.5f, 0.6f, 8.8f, 1, 39, 77, 54, 92);
         parentObj=obj;
         this.isUI = true;
@@ -47,22 +47,22 @@ public class EXPbar extends Sprite {
         //EXP바 테두리 추가
         myEXPbar_out = new EXPbar_out(R.mipmap.ui, max_x, max_y, this.width, this.height,
                 10, 77, 16, 83, this);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myEXPbar_out);
+        mainscene.add(MainScene.Layer.ui, myEXPbar_out);
 
         myEXPbar_out_up = new EXPbar_out(R.mipmap.ui, max_x, max_y + max_height / 2 + this.up_height / 2, maxWidthSize, up_height,
                 10, 76, 16, 77, this);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myEXPbar_out_up);
+        mainscene.add(MainScene.Layer.ui, myEXPbar_out_up);
 
         myEXPbar_out_down = new EXPbar_out(R.mipmap.ui, max_x, max_y - max_height / 2 - this.down_height / 2, maxWidthSize, down_height,
                 10, 76, 16, 77, this);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myEXPbar_out_down);
+        mainscene.add(MainScene.Layer.ui, myEXPbar_out_down);
 
         myEXPbar_out_left = new EXPbar_out(R.mipmap.ui, max_x - maxWidthSize / 2 - this.left_width/2, max_y, this.left_width, max_height,
                 9, 77, 10, 83, this);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myEXPbar_out_left);
+        mainscene.add(MainScene.Layer.ui, myEXPbar_out_left);
         myEXPbar_out_right = new EXPbar_out(R.mipmap.ui, max_x + maxWidthSize / 2 + this.right_width/2, max_y, this.right_width, max_height,
                 9, 77, 10, 83, this);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myEXPbar_out_right);
+        mainscene.add(MainScene.Layer.ui, myEXPbar_out_right);
     }
     public void EXPbarSet() {
         SetEXPSize();

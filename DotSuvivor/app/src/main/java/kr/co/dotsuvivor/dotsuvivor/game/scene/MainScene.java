@@ -17,14 +17,13 @@ public class MainScene extends BaseScene {
 
 
     private final Player player;
-    /*
     private final Joystick joystick;
     private final InfinityBackground infinityBackground1;
     private final InfinityBackground infinityBackground2;
     private final InfinityBackground infinityBackground3;
     private final InfinityBackground infinityBackground4;
 
-     */
+
     public enum Layer {
         bg, shadow, coin, weapon, monster, player, effect, ui, touch, controller, COUNT
     }
@@ -38,7 +37,7 @@ public class MainScene extends BaseScene {
         player = new Player(this);
 
         add(Layer.player, player);
-/*
+
         //무한 배경 추가
         infinityBackground1 = new InfinityBackground(player, R.mipmap.background, -9, 9, 18, 18, 0, 0, 180, 180);
         infinityBackground2 = new InfinityBackground(player, R.mipmap.background, 9, 9, 18, 18, 0, 0, 180, 180);
@@ -49,7 +48,7 @@ public class MainScene extends BaseScene {
         add(Layer.bg, infinityBackground3);
         add(Layer.bg, infinityBackground4);
 
-*/
+
         //정지 버튼 추가
         add(Layer.touch, new Button(R.mipmap.ui, 8.4f, 1.7f, 1.2f, 1.2f, 0, 85, 18, 103, new Button.Callback() {
             @Override
@@ -61,9 +60,9 @@ public class MainScene extends BaseScene {
                 return true;
             }
         }));
-/*
+
         //조이스틱 추가
-        joystick = new Joystick(new Joystick.Callback() { //콜백함수 사용안함.
+        joystick = new Joystick(this, new Joystick.Callback() { //콜백함수 사용안함.
             @Override
             public boolean onTouch_down(Joystick.Action action) {
                 return true;
@@ -85,8 +84,8 @@ public class MainScene extends BaseScene {
 
 
         add(Layer.controller, new CollisionChecker(player)); //콜라이더 체크 추가
-        add(Layer.controller, new MonsterSpawner(player));
-        */
+        add(Layer.controller, new MonsterSpawner(this, player));
+
     }
 /*
     @Override

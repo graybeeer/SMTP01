@@ -28,14 +28,14 @@ public class Joystick extends Sprite implements ITouchable {
         public boolean onTouch_up(Action action);
     }
 
-    public Joystick(Callback callback, Player player) {
+    public Joystick(MainScene mainscene, Callback callback, Player player) {
         super(R.mipmap.ui, (float) 4.5, 12, (float) 2.5, (float) 2.5, 112, 79, 148, 115);
         this.control_player = player;
         this.callback = callback;
         this.isUI = true;
         this.paint.setAlpha(0);
         my_Joystick_out = new Joystick_out(this);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, my_Joystick_out);
+        mainscene.add(MainScene.Layer.ui, my_Joystick_out);
     }
 
     public float touch_saved_x, touch_saved_y; //화면 기준

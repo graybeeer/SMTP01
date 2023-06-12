@@ -27,9 +27,9 @@ public class Player extends AnimSprite implements IBoxCollidable {
     private static final String TAG = Player.class.getSimpleName();
     private static int playersize_x = 18;
     private static int playersize_y = 20;
-    //private final Shadow myShadow; //내 그림자
-    private final HPbar myHpbar;
-    //private final EXPbar myEXPbar;
+    private final Shadow myShadow; //내 그림자
+    private final HPbar myHpbar; //내 체력바
+    private final EXPbar myEXPbar; //내 경험치바
     private float maxHP; //내 최대 체력
     private float nowHP; //내 지금 체력
 
@@ -45,8 +45,8 @@ public class Player extends AnimSprite implements IBoxCollidable {
     public Player(MainScene mainscene) {
         super(R.mipmap.farmer_0, 5, 5, (float) 1.8, 2, 5, 1);
         //그림자 추가
-        //myShadow = new Shadow(R.mipmap.props, 0, 0, 1, 0.6f, 37, 20, 47, 26, this);
-        //BaseScene.getTopScene().add(MainScene.Layer.shadow, myShadow);
+        myShadow = new Shadow(R.mipmap.props, 0, 0, 1, 0.6f, 37, 20, 47, 26, this);
+        mainscene.add(MainScene.Layer.shadow, myShadow);
         this.isUI = false;
         this.maxHP = 30;
         this.nowHP = this.maxHP;
@@ -58,8 +58,8 @@ public class Player extends AnimSprite implements IBoxCollidable {
         mainscene.add(MainScene.Layer.ui, myHpbar);
 
         //EXP바 추가
-        //myEXPbar = new EXPbar(this);
-        //BaseScene.getTopScene().add(MainScene.Layer.ui, myEXPbar);
+        myEXPbar = new EXPbar(mainscene,this);
+        mainscene.add(MainScene.Layer.ui, myEXPbar);
 
         //무기배열 추가
         playerWeaponList = new ArrayList<Weapon>();
@@ -165,9 +165,9 @@ public class Player extends AnimSprite implements IBoxCollidable {
                 Camera.camera_y = this.y;
                 break;
         }
-        //this.myShadow.ShadowSet();
+        this.myShadow.ShadowSet();
         this.myHpbar.HPbarSet();
-        //this.myEXPbar.EXPbarSet();
+        this.myEXPbar.EXPbarSet();
     }
 
     public void move(float dx, float dy) {

@@ -14,12 +14,14 @@ public class MonsterSpawner implements IGameObject {
     private float game_time;
     private float timer;
     private float spawnCycle; //소환 주기
+    private MainScene mainscene;
 
-    public MonsterSpawner(Player player) {
+    public MonsterSpawner(MainScene mainscene, Player player) {
         game_player = player;
         game_time = 0; //게임 시간 초기화
         timer = 0;
         spawnCycle = 1f;
+        this.mainscene = mainscene;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class MonsterSpawner implements IGameObject {
     }
 
     private void spawn(float spawn_x, float spawn_y) {
-        BaseScene.getTopScene().add(MainScene.Layer.monster, new Monster(game_player, spawn_x, spawn_y));
+        BaseScene.getTopScene().add(MainScene.Layer.monster, new Monster(mainscene, game_player, spawn_x, spawn_y));
     }
 
     private float randomPoint[][] = {

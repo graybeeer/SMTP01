@@ -112,4 +112,7 @@ public class Sprite implements IGameObject {
     public void setRotate(float angle){ //이미지 회전 함수
         degree=angle;
     }
+    public void setUI(boolean UI) {
+        this.isUI = UI;
+    }
 }

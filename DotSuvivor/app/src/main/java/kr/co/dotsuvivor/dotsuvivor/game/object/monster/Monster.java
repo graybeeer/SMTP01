@@ -25,12 +25,12 @@ public class Monster extends AnimSprite implements IBoxCollidable, IRecyclable {
     protected float damage; //몬스터의 데미지
     protected Player game_player;
 
-    public Monster(Player player, float cx, float cy) {
+    public Monster(MainScene mainscene, Player player, float cx, float cy) {
         super(R.mipmap.enemy_1, cx, cy, 1.8f, 1.8f, 5, 1);
         this.isUI = false;
         speed = 2.5f;
         myShadow = new Shadow(R.mipmap.props, 0, 0, 1, 0.6f, 37, 20, 47, 26, this);
-        BaseScene.getTopScene().add(MainScene.Layer.shadow, myShadow);
+        mainscene.add(MainScene.Layer.shadow, myShadow);
         this.maxHP = 10;
         this.nowHP = this.maxHP;
         this.damage = 10;
