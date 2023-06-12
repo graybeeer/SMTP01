@@ -24,7 +24,7 @@ public class HPbar extends Sprite {
     private float left_width;
     private float right_width;
 
-    public HPbar(int bitmapResId, float cx, float cy, float width, float height, int left, int top, int right, int bottom, Player obj) {
+    public HPbar(MainScene mainscene, int bitmapResId, float cx, float cy, float width, float height, int left, int top, int right, int bottom, Player obj) {
         super(bitmapResId, cx, cy, width, height, left, top, right, bottom);
         this.parentObj = obj;
         this.max_Size = width;
@@ -39,23 +39,23 @@ public class HPbar extends Sprite {
         //HP바 테두리 추가
         myHpbar_out = new HPbar_out(R.mipmap.ui, 0, 0, this.width, this.height,
                 10, 77, 16, 83, parentObj, x_offset, y_offset);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar_out);
+        mainscene.add(MainScene.Layer.ui, myHpbar_out);
 
         myHpbar_out_up = new HPbar_out(R.mipmap.ui, 0, 0, this.width, up_height,
                 10, 76, 16, 77, parentObj, x_offset, y_offset + this.height / 2 + up_height / 2);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar_out_up);
+        mainscene.add(MainScene.Layer.ui, myHpbar_out_up);
 
         myHpbar_out_down = new HPbar_out(R.mipmap.ui, 0, 0, this.width, down_height,
                 10, 76, 16, 77, parentObj, x_offset, y_offset - this.height / 2 - up_height / 2);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar_out_down);
+        mainscene.add(MainScene.Layer.ui, myHpbar_out_down);
 
         myHpbar_out_left = new HPbar_out(R.mipmap.ui, 0, 0, left_width, this.height,
                 9, 77, 10, 83, parentObj, x_offset - this.width / 2 - left_width / 2, y_offset);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar_out_left);
+        mainscene.add(MainScene.Layer.ui, myHpbar_out_left);
 
         myHpbar_out_right = new HPbar_out(R.mipmap.ui, 0, 0, right_width, this.height,
                 9, 77, 10, 83, parentObj, x_offset + this.width / 2 + right_width / 2, y_offset);
-        BaseScene.getTopScene().add(MainScene.Layer.ui, myHpbar_out_right);
+        mainscene.add(MainScene.Layer.ui, myHpbar_out_right);
     }
 
     public void HPbarSet(float x, float y) {
