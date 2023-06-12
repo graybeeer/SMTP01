@@ -9,6 +9,7 @@ import kr.co.dotsuvivor.dotsuvivor.game.controller.MonsterSpawner;
 import kr.co.dotsuvivor.dotsuvivor.game.object.InfinityBackground;
 import kr.co.dotsuvivor.dotsuvivor.game.object.Player;
 import kr.co.dotsuvivor.framework.objects.Button;
+import kr.co.dotsuvivor.framework.res.Sound;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.view.Metrics;
 
@@ -67,37 +68,59 @@ public class MainScene extends BaseScene {
             public boolean onTouch_down(Joystick.Action action) {
                 return true;
             }
+
             @Override
             public boolean onTouch_move(Joystick.Action action) {
 
                 return false;
             }
+
             @Override
             public boolean onTouch_up(Joystick.Action action) {
 
                 return false;
             }
         }
-        ,player);
+                , player);
         add(Layer.touch, joystick);
-
 
 
         add(Layer.controller, new CollisionChecker(player)); //콜라이더 체크 추가
         add(Layer.controller, new MonsterSpawner(this, player));
 
     }
-/*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            player.move();
+
+    /*
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                player.move();
+            }
+
+            return super.onTouchEvent(event);
         }
 
-        return super.onTouchEvent(event);
+     */
+    @Override
+    protected void onStart() {
+        Sound.playMusic(R.raw.main,true);
     }
 
- */
+    @Override
+    protected void onEnd() {
+        Sound.stopMusic();
+    }
+
+    @Override
+    protected void onPause() {
+        Sound.pauseMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        Sound.resumeMusic();
+    }
+
     @Override
     protected int getTouchLayerIndex() {
 

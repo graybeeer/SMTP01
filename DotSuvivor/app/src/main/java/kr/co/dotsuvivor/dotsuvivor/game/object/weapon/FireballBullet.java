@@ -7,6 +7,7 @@ import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.framework.interfaces.IBoxCollidable;
 import kr.co.dotsuvivor.framework.interfaces.IRecyclable;
 import kr.co.dotsuvivor.framework.objects.Sprite;
+import kr.co.dotsuvivor.framework.res.Sound;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.util.Calculate;
 
@@ -15,6 +16,8 @@ public class FireballBullet extends Sprite implements IBoxCollidable, IRecyclabl
     private float speed; //파이어볼의 속도
     private float attackdegree; //파이어볼의 이동 각도
     private float damage; //파이어볼의 데미지
+    private int max_hit; //최대 관통 가능 횟수
+    private int now_hit; //현재 관통된 횟수
 
     public FireballBullet(float cx, float cy, float angle) {
         super(R.mipmap.props, cx, cy, 0.5f, 0.9f, 31, 20, 36, 29);
@@ -22,6 +25,9 @@ public class FireballBullet extends Sprite implements IBoxCollidable, IRecyclabl
         this.degree = angle + 90; //이미지를 회전시켜야 하는 각도. 꼭짓점이 위에 있음으로 꼭짓점이 적을 향하기 위해서는 오른쪽으로 90도 눕혀야 한다.
         this.speed = 5; //파이어볼의 스피드
         this.damage =50;
+
+        max_hit=1;
+        now_hit=0;
     }
 
     @Override
@@ -56,4 +62,14 @@ public class FireballBullet extends Sprite implements IBoxCollidable, IRecyclabl
     {
         return damage;
     }
+    public void hitMonster()
+    {
+        Sound.playEffect(R.raw.range);
+        now_hit+=1;
+        if(now_hit>=max_hit)
+        {
+            BaseScene.getTopScene().remove(MainScene.Layer.weapon, this);
+        }
+    }
+
 }

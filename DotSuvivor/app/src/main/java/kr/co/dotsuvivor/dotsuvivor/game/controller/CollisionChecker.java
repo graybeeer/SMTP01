@@ -36,8 +36,7 @@ public class CollisionChecker implements IGameObject {
                     FireballBullet fireballobj = (FireballBullet) fireball.get(bi);
                     if (CollisionHelper.collides(monsterobj, fireballobj)) {
                         //Log.d(TAG, "ATTACK!!");
-                        //충돌된 파이어볼 삭제처리. 나중엔 관통하거나 폭발하는 효과 추가.
-                        BaseScene.getTopScene().remove(MainScene.Layer.weapon, fireballobj);
+                        fireballobj.hitMonster();
                         monsterobj.attacked(fireballobj.getDamage());
                     }
                 }

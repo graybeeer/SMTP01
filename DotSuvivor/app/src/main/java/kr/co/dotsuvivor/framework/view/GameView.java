@@ -56,7 +56,7 @@ public class GameView extends View implements Choreographer.FrameCallback {
         Choreographer.getInstance().postFrameCallback(this);
 
         //if (BuildConfig.DEBUG) {
-        if (true) {
+        if (false) {
             fpsPaint = new Paint();
             fpsPaint.setColor(Color.BLUE);
             fpsPaint.setTextSize(100f);
@@ -114,13 +114,13 @@ public class GameView extends View implements Choreographer.FrameCallback {
         }
 
         //if (BuildConfig.DEBUG) {
-        if (true) {
+        if (false) {
             canvas.drawRect(0, 0, Metrics.game_width, Metrics.game_height, borderPaint);
         }
         canvas.restore();
 
         //if (BuildConfig.DEBUG && BaseScene.frameTime > 0) {
-        if (true && BaseScene.frameTime > 0) {
+        if (false) {
             int fps = (int) (1.0f / BaseScene.frameTime);
             int count = (scene != null) ? scene.count() : 0;
             canvas.drawText("FPS: " + fps + " objs: " + count, 100f, 200f, fpsPaint);

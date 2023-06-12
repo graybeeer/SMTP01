@@ -171,7 +171,7 @@ public class BaseScene {
         }
 
         //if (BuildConfig.DEBUG) {
-        if (true) {
+        if (false) {
             if (bboxPaint == null) {
                 bboxPaint = new Paint();
                 bboxPaint.setStyle(Paint.Style.STROKE);

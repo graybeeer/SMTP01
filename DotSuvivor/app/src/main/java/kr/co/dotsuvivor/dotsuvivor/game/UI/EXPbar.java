@@ -81,7 +81,7 @@ public class EXPbar extends Sprite {
             return;
         }
         if (parentObj.getNowEXP() >= parentObj.getMaxEXP()) {
-            nowWidthSize = 0;
+            nowWidthSize = maxWidthSize;
             width = nowWidthSize;
             return;
         }

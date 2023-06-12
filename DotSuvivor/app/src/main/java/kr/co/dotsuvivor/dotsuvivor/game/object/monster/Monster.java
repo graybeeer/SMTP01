@@ -12,6 +12,7 @@ import kr.co.dotsuvivor.dotsuvivor.game.scene.MainScene;
 import kr.co.dotsuvivor.framework.interfaces.IBoxCollidable;
 import kr.co.dotsuvivor.framework.interfaces.IRecyclable;
 import kr.co.dotsuvivor.framework.objects.AnimSprite;
+import kr.co.dotsuvivor.framework.res.Sound;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.util.Calculate;
 
@@ -178,6 +179,7 @@ public class Monster extends AnimSprite implements IBoxCollidable, IRecyclable {
     }
 
     protected void dead() { //몬스터가 쓰러진 상태. 곧 죽을 상태
+        Sound.playEffect(R.raw.dead);
         this.nowMonsterState = MonsterState.dead;
         //코인(경험치)소환
         BaseScene.getTopScene().add(MainScene.Layer.coin, new Coin(this.x, this.y));

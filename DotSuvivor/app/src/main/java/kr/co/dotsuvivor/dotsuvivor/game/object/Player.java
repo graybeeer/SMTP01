@@ -14,6 +14,7 @@ import kr.co.dotsuvivor.dotsuvivor.game.UI.HPbar;
 import kr.co.dotsuvivor.framework.interfaces.IBoxCollidable;
 import kr.co.dotsuvivor.framework.interfaces.IGameObject;
 import kr.co.dotsuvivor.framework.objects.AnimSprite;
+import kr.co.dotsuvivor.framework.res.Sound;
 import kr.co.dotsuvivor.framework.scene.BaseScene;
 import kr.co.dotsuvivor.framework.objects.Camera;
 import kr.co.dotsuvivor.framework.util.Calculate;
@@ -35,6 +36,7 @@ public class Player extends AnimSprite implements IBoxCollidable {
 
     private float maxEXP; //최대 경험치
     private float nowEXP; //내 경험치
+    private float myLevel; //내 레벨
     private boolean hurt = false; //공격받은 상태
     protected final float HURT_INTERVAL = 1f; //플레이어 피격 무적 시간
     private ArrayList<Weapon> playerWeaponList; //플레이어가 소지하고 있는 무기들 리스트
@@ -52,13 +54,14 @@ public class Player extends AnimSprite implements IBoxCollidable {
         this.nowHP = this.maxHP;
         this.maxEXP = 1000;
         this.nowEXP = 0;
+        this.myLevel = 0;
 
         //HP바 추가
         myHpbar = new HPbar(mainscene, R.mipmap.ui, 0, 0, 1.6f, 0.3f, 20, 77, 26, 83, this);
         mainscene.add(MainScene.Layer.ui, myHpbar);
 
         //EXP바 추가
-        myEXPbar = new EXPbar(mainscene,this);
+        myEXPbar = new EXPbar(mainscene, this);
         mainscene.add(MainScene.Layer.ui, myEXPbar);
 
         //무기배열 추가
@@ -274,9 +277,13 @@ public class Player extends AnimSprite implements IBoxCollidable {
         //Log.d(TAG, "attacked!!!");
         this.nowHP -= damage;
         this.hurt = true;
+        //데미지 입을때 피격 소리
+        Sound.playEffect(R.raw.hit0);
 
         if (nowHP <= 0) {
             dead();
+            //죽으면 배경음악 종료
+            Sound.playMusic(R.raw.lose,false);
             return true;
         }
         return false;
@@ -288,15 +295,20 @@ public class Player extends AnimSprite implements IBoxCollidable {
         this.nowPlayerState = PlayerState.dead;
         BaseScene.getTopScene().add(MainScene.Layer.ui, new GameOverUI());
     }
-    public void gainEXP(float coinEXP){
-        nowEXP+=coinEXP;
+    public void gainEXP(float coinEXP) {
+        nowEXP += coinEXP;
         //만약 최대 exp를 넘기면 레벨업
-        if(nowEXP>maxEXP)
-        {
-            //levelup();
+        if (nowEXP >= maxEXP) {
+            //레벨업
+            LevelUp();
         }
     }
-
+    //레벨업 함수
+    private void LevelUp() {
+        Sound.playEffect(R.raw.levelup);
+        nowEXP -= maxEXP;
+        myLevel += 1;
+    }
 
     //체력
     public float getMaxHP(){
